@@ -1,6 +1,6 @@
 <?php
 
-namespace sanampatel\StaticPress;
+namespace SanamPatel\StaticPress;
 
 use TightenCo\Jigsaw\Jigsaw;
 

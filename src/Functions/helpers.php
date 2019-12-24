@@ -1,5 +1,7 @@
 <?php
 
+namespace SanamPatel\StaticPress\Functions;
+
 function content_sanitize($value)
 {
     return str_replace(["\r", "\n", "\r\n"], ' ', strip_tags($value));
