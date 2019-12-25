@@ -1,46 +1,39 @@
 <?php
+// All helper functions of StaticPress
 
-namespace SanamPatel\StaticPress\Functions;
-
-function content_sanitize($value)
-{
+function content_sanitize($value) {
     return str_replace(["\r", "\n", "\r\n"], ' ', strip_tags($value));
 }
 
-function str_limit_soft($value, $limit = 100, $end = '...')
-{
+function str_limit_soft($value, $limit = 100, $end = '...') {
     if (mb_strlen($value, 'UTF-8') <= $limit) {
         return $value;
     }
     return rtrim(strtok(wordwrap($value, $limit, "\n"), "\n"), ' .') . $end;
 }
 
-function posts_filter($posts, $tag)
-{
+function posts_filter($posts, $tag)  {
     return $posts->filter(function ($post) use ($tag) {
     	// $post->tags = array_map('strtolower', $post->tags);
         return collect($post->tags)->contains($tag->name());
     });
 }
 
-function posts_filter_cat($posts, $category)
-{
+function posts_filter_cat($posts, $category) {
     return $posts->filter(function ($post) use ($category) {
     	// $post->categories = array_map('strtolower', $post->categories);
         return collect($post->categories)->contains($category->name());
     });
 }
 
-function get_setting($settings, $key)
-{
+function get_setting($settings, $key) {
     return $settings->filter(function ($setting) use ($key) {
         $setting->keys = array_map('strtolower', $setting->keys);
         return collect($setting->keys)->contains($key->name());
     });
 }
 
-function get_header($headers, $key)
-{
+function get_header($headers, $key) {
     return $headers->filter(function ($header) use ($key) {
         $header->keys = array_map('strtolower', $header->keys);
         return collect($header->keys)->contains($key->name());
@@ -70,16 +63,13 @@ function seo_keywords($title, $tags, $category) {
                 $keywords .= ", " . $tag;
             }
 
-        }
-        else {
+        } else {
             $keywords .= $tags;
         }
     }
 
     if (!empty($category)) {
-
         $keywords .= ", " . $category;
-
     }
 
     return $keywords;
@@ -104,13 +94,9 @@ function string_count($str, $counter = 160) {
             $finalcount = strlen($out_str) + $word_len;
             
           if($finalcount <= $counter) {
-
             $out_str .= " " . $word;
-
           } else {
-            
             return $out_str;
-
         }
     }
 }
@@ -121,15 +107,15 @@ function seo($type, $tags, $category, $title, $return) {
         return seo_keywords($title, $tags, $category);
     }
 
-    elseif ($type == "post" && $return == "description") {
+    else if ($type == "post" && $return == "description") {
         return string_count($title);
     }
 
-    elseif ($type == "tag") {
+    else if ($type == "tag") {
         return seo_keywords($title, $tags, $category);
     }
 
-    elseif ($type == "category") {
+    else if ($type == "category") {
         return seo_keywords($title, $tags, $category);
     }
 }

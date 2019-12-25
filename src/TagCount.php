@@ -12,23 +12,23 @@ class TagCount {
             return $page->tags;
         })->values());
 
+		$tagsArray = $tagsCollection->toArray();
+
         if(is_array($tagsArray)) {
             if(count($tagsArray) > 0) {
                 foreach($tagsArray as $tags) {
-                    if(count($tags) > 0) {
-                        foreach($tags as $tag) {
-                            $tagPath = $jigsaw->getSourcePath() . '/_tags/' . $tag . '.md';
-                            if(!file_exists($tagPath)) {
-                                md_file_write($tagPath, $tag);
-                            }
-                        }
-                    }
+					if(is_array($categories)) {
+						if(count($tags) > 0) {
+							foreach($tags as $tag) {
+								$tagPath = $jigsaw->getSourcePath() . '/_tags/' . $tag . '.md';
+								if(!file_exists($tagPath)) {
+									md_file_write($tagPath, $tag);
+								}
+							}
+						}
+					}
                 }
-            } else {
-                $tagPath = $jigsaw->getSourcePath() . '/_tags/' . $tagsArray[0] . '.md';
             }
-        } else {
-            $tagPath = $jigsaw->getSourcePath() . '/_tags/' . $tagsArray . '.md';
         }
     }
 }

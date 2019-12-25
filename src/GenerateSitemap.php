@@ -1,6 +1,7 @@
 <?php
 
 namespace SanamPatel\StaticPress;
+
 use samdark\sitemap\Sitemap;
 use TightenCo\Jigsaw\Jigsaw;
 
