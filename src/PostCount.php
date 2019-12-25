@@ -1,18 +1,17 @@
 <?php
 
 namespace SanamPatel\StaticPress;
-
 use TightenCo\Jigsaw\Jigsaw;
 
-class PostCount
-{
-    public function handle(Jigsaw $jigsaw)
-    {
+class PostCount {
+
+    public function handle(Jigsaw $jigsaw) {
         
         $posts_path = $jigsaw->getSourcePath() . '/_posts/';
         $post_count = 0;
 
         $files = glob($posts_path . "*");
+		
         if ($files){
             $post_count = count($files);
         }
@@ -25,9 +24,9 @@ class PostCount
 
 $post = <<<EOF
 ---
-title: Features
+title: Hello, StaticPress!
 authorname: StaticPress
-date: 2019-07-06T00:00:00.000Z
+date: 2019-06-07T22:10:00.000Z
 seotitle: Do not delete this post
 seokeywords: 'StaticPress, Warning, First Post'
 seodescription: >-
@@ -37,10 +36,11 @@ tags:
   - cms
 categories: staticpress
 image: /source/images/features-large.png
-comments: false
+comments: true
 ---
 
 This is deafult post of StaticPress do not delete else it'll stop working!
+
 EOF;
 
             fwrite($postfile, $post);

@@ -1,20 +1,19 @@
 <?php
 
 namespace SanamPatel\StaticPress;
-
 use samdark\sitemap\Sitemap;
 use TightenCo\Jigsaw\Jigsaw;
 
-class GenerateSitemap
-{
+class GenerateSitemap {
+
     protected $exclude = [
         '/assets/*',
         '*/favicon.ico',
         '*/404*'
     ];
 
-    public function handle(Jigsaw $jigsaw)
-    {
+    public function handle(Jigsaw $jigsaw) {
+
         $baseUrl = $jigsaw->getConfig('baseUrl');
 
         if (! $baseUrl) {
@@ -35,8 +34,7 @@ class GenerateSitemap
         $sitemap->write();
     }
 
-    public function isExcluded($path)
-    {
+    public function isExcluded($path) {
         return str_is($this->exclude, $path);
     }
 }

@@ -4,10 +4,9 @@ namespace SanamPatel\StaticPress;
 
 use TightenCo\Jigsaw\Jigsaw;
 
-class SlugChecker
-{
-    public function handle(Jigsaw $jigsaw)
-    {
+class SlugChecker {
+
+    public function handle(Jigsaw $jigsaw) {
         try {
             $posts = collect($jigsaw->getCollection('posts')->map(function ($page) use ($jigsaw) {
                 return [
