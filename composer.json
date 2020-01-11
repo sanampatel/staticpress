@@ -1,6 +1,6 @@
 {
     "name": "sanampatel/staticpress",
-    "description": "StaticPress.io is static CMS which works with Jigsaw staticsite generator also supports forestry",
+    "description": "StaticPress.io is static CMS which works with Jigsaw static-site generator also supports forestry",
     "type": "library",
     "keywords": ["static", "CMS", "StaticPress", "NetlifyCMS", "forestry"],
     "homepage": "https://github.com/sanampatel/staticpress",

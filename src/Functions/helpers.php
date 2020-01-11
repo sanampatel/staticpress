@@ -1,44 +1,37 @@
 <?php
+// All helper functions of StaticPress
 
-namespace SanamPatel\StaticPress\Functions;
-
-function content_sanitize($value)
-{
+function content_sanitize($value) {
     return str_replace(["\r", "\n", "\r\n"], ' ', strip_tags($value));
 }
 
-function str_limit_soft($value, $limit = 100, $end = '...')
-{
+function str_limit_soft($value, $limit = 100, $end = '...') {
     if (mb_strlen($value, 'UTF-8') <= $limit) {
         return $value;
     }
     return rtrim(strtok(wordwrap($value, $limit, "\n"), "\n"), ' .') . $end;
 }
 
-function posts_filter($posts, $tag)
-{
+function posts_filter($posts, $tag)  {
     return $posts->filter(function ($post) use ($tag) {
         return collect($post->tags)->contains($tag->name());
     });
 }
 
-function posts_filter_cat($posts, $category)
-{
+function posts_filter_cat($posts, $category) {
     return $posts->filter(function ($post) use ($category) {
         return collect($post->categories)->contains($category->name());
     });
 }
 
-function get_setting($settings, $key)
-{
+function get_setting($settings, $key) {
     return $settings->filter(function ($setting) use ($key) {
         $setting->keys = array_map('strtolower', $setting->keys);
         return collect($setting->keys)->contains($key->name());
     });
 }
 
-function get_header($headers, $key)
-{
+function get_header($headers, $key) {
     return $headers->filter(function ($header) use ($key) {
         $header->keys = array_map('strtolower', $header->keys);
         return collect($header->keys)->contains($key->name());
@@ -71,6 +64,10 @@ function seo_keywords($title, $tags, $category)
             foreach ($tags as $key => $tag) {
                 $keywords .= ", " . $tag;
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
         } else {
             $keywords .= $tags;
         }
@@ -82,6 +79,7 @@ function seo_keywords($title, $tags, $category)
 
     return $keywords;
 }
+<<<<<<< HEAD
 
 function string_count($str, $counter = 160)
 {
@@ -104,6 +102,30 @@ function string_count($str, $counter = 160)
         if ($finalcount <= $counter) {
             $out_str .= " " . $word;
         } else {
+=======
+  
+function string_count($str, $counter = 160) {
+ 
+        $out_str = "";
+        $count = 0;
+
+        if (strlen($str) < $counter) {
+            return $str;
+        }
+  
+        $words = explode(" ", $str);
+
+        foreach ($words as $word) {
+          
+            $word_len = strlen(trim($word));
+            $count += $word_len;
+          
+            $finalcount = strlen($out_str) + $word_len;
+            
+          if($finalcount <= $counter) {
+            $out_str .= " " . $word;
+          } else {
+>>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
             return $out_str;
         }
         return $out_str;
@@ -115,11 +137,25 @@ function seo($type, $tags, $category, $title, $return)
 
     if ($type == "post" && $return == "keywords") {
         return seo_keywords($title, $tags, $category);
+<<<<<<< HEAD
     } elseif ($type == "post" && $return == "description") {
         return string_count($title);
     } elseif ($type == "tag") {
         return seo_keywords($title, $tags, $category);
     } elseif ($type == "category") {
+=======
+    }
+
+    else if ($type == "post" && $return == "description") {
+        return string_count($title);
+    }
+
+    else if ($type == "tag") {
+        return seo_keywords($title, $tags, $category);
+    }
+
+    else if ($type == "category") {
+>>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
         return seo_keywords($title, $tags, $category);
     }
 }
