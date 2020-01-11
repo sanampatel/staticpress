@@ -64,10 +64,6 @@ function seo_keywords($title, $tags, $category)
             foreach ($tags as $key => $tag) {
                 $keywords .= ", " . $tag;
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
         } else {
             $keywords .= $tags;
         }
@@ -79,30 +75,6 @@ function seo_keywords($title, $tags, $category)
 
     return $keywords;
 }
-<<<<<<< HEAD
-
-function string_count($str, $counter = 160)
-{
-
-    $out_str = "";
-    $count = 0;
-
-    if (strlen($str) < $counter) {
-        return $str;
-    }
-
-    $words = explode(" ", $str);
-
-    foreach ($words as $word) {
-        $word_len = strlen(trim($word));
-        $count += $word_len;
-
-        $finalcount = strlen($out_str) + $word_len;
-
-        if ($finalcount <= $counter) {
-            $out_str .= " " . $word;
-        } else {
-=======
   
 function string_count($str, $counter = 160) {
  
@@ -125,7 +97,6 @@ function string_count($str, $counter = 160) {
           if($finalcount <= $counter) {
             $out_str .= " " . $word;
           } else {
->>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
             return $out_str;
         }
         return $out_str;
@@ -137,13 +108,6 @@ function seo($type, $tags, $category, $title, $return)
 
     if ($type == "post" && $return == "keywords") {
         return seo_keywords($title, $tags, $category);
-<<<<<<< HEAD
-    } elseif ($type == "post" && $return == "description") {
-        return string_count($title);
-    } elseif ($type == "tag") {
-        return seo_keywords($title, $tags, $category);
-    } elseif ($type == "category") {
-=======
     }
 
     else if ($type == "post" && $return == "description") {
@@ -155,7 +119,6 @@ function seo($type, $tags, $category, $title, $return)
     }
 
     else if ($type == "category") {
->>>>>>> 513ea2131e8bec484d75a15ab557c01feb2e33dc
         return seo_keywords($title, $tags, $category);
     }
 }
