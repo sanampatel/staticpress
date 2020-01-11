@@ -17,8 +17,8 @@ class GenerateSitemap
     {
         $baseUrl = $jigsaw->getConfig('baseUrl');
 
-        if (! $baseUrl) {
-            echo("\nTo generate a sitemap.xml file, please specify a 'baseUrl' in config.php.\n\n");
+        if (!$baseUrl) {
+            echo ("\nTo generate a sitemap.xml file, please specify a 'baseUrl' in config.php.\n\n");
 
             return;
         }
@@ -30,7 +30,7 @@ class GenerateSitemap
                 return $this->isExcluded($path);
             })->each(function ($path) use ($baseUrl, $sitemap) {
                 $sitemap->addItem(rtrim($baseUrl, '/') . $path, time(), Sitemap::DAILY);
-        });
+            });
 
         $sitemap->write();
     }

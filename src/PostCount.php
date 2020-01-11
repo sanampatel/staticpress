@@ -6,24 +6,24 @@ use TightenCo\Jigsaw\Jigsaw;
 
 class PostCount
 {
-    public function handle(Jigsaw $jigsaw)
-    {
-        
-        $posts_path = $jigsaw->getSourcePath() . '/_posts/';
-        $post_count = 0;
+  public function handle(Jigsaw $jigsaw)
+  {
 
-        $files = glob($posts_path . "*");
-        if ($files){
-            $post_count = count($files);
-        }
+    $posts_path = $jigsaw->getSourcePath() . '/_posts/';
+    $post_count = 0;
 
-        if($post_count == 0) {
-            $postfile = fopen($posts_path . 'first-post.md', "w") or die("Unable to open file!");
-   
-            // WIP
-            // $post = file_get_contents('first-post.md');
+    $files = glob($posts_path . "*");
+    if ($files) {
+      $post_count = count($files);
+    }
 
-$post = <<<EOF
+    if ($post_count == 0) {
+      $postfile = fopen($posts_path . 'first-post.md', "w") or die("Unable to open file!");
+
+      // WIP
+      // $post = file_get_contents('first-post.md');
+
+      $post = <<<EOF
 ---
 title: Features
 authorname: StaticPress
@@ -43,7 +43,7 @@ comments: false
 This is deafult post of StaticPress do not delete else it'll stop working!
 EOF;
 
-            fwrite($postfile, $post);
-        }
+      fwrite($postfile, $post);
     }
+  }
 }

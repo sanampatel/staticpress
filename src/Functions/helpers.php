@@ -18,7 +18,6 @@ function str_limit_soft($value, $limit = 100, $end = '...')
 function posts_filter($posts, $tag)
 {
     return $posts->filter(function ($post) use ($tag) {
-    	// $post->tags = array_map('strtolower', $post->tags);
         return collect($post->tags)->contains($tag->name());
     });
 }
@@ -26,7 +25,6 @@ function posts_filter($posts, $tag)
 function posts_filter_cat($posts, $category)
 {
     return $posts->filter(function ($post) use ($category) {
-    	// $post->categories = array_map('strtolower', $post->categories);
         return collect($post->categories)->contains($category->name());
     });
 }
@@ -47,112 +45,107 @@ function get_header($headers, $key)
     });
 }
 
-function senitize_url($url) {
-    $new_url = strtolower($url);
-    $new_url = str_replace("  "," ", $new_url);
-    $new_url = str_replace(" ","-", $new_url);
-    $new_url = str_replace("- ","-", $new_url);
-    $new_url = str_replace(" -","-", $new_url);
-    $new_url = str_replace(" - ","-", $new_url);
+function senitize_url($url)
+{
+    $url = preg_replace('~[^\pL\d]+~u', '-', $url);
+    $url = iconv('utf-8', 'us-ascii//TRANSLIT', $url);
+    $url = preg_replace('~[^-\w]+~', '', $url);
+    $url = trim($url, '-');
+    $url = preg_replace('~-+~', '-', $url);
+    $url = strtolower($url);
 
-    return $new_url;
+    if (empty($url)) {
+        return 'default-url';
+    }
+
+    return $url;
 }
 
-function seo_keywords($title, $tags, $category) {
+function seo_keywords($title, $tags, $category)
+{
     $keywords = "";
     $keywords .= $title;
 
     if (!empty($tags)) {
-
-        if (is_array ($tags)) {
-
+        if (is_array($tags)) {
             foreach ($tags as $key => $tag) {
                 $keywords .= ", " . $tag;
             }
-
-        }
-        else {
+        } else {
             $keywords .= $tags;
         }
     }
 
     if (!empty($category)) {
-
         $keywords .= ", " . $category;
-
     }
 
     return $keywords;
 }
-  
-function string_count($str, $counter = 160) {
- 
-        $out_str = "";
-        $count = 0;
 
-        if (strlen($str) < $counter) {
-            return $str;
-        }
-  
-        $words = explode(" ", $str);
+function string_count($str, $counter = 160)
+{
 
-        foreach ($words as $word) {
-          
-            $word_len = strlen(trim($word));
-            $count += $word_len;
-          
-            $finalcount = strlen($out_str) + $word_len;
-            
-          if($finalcount <= $counter) {
+    $out_str = "";
+    $count = 0;
 
+    if (strlen($str) < $counter) {
+        return $str;
+    }
+
+    $words = explode(" ", $str);
+
+    foreach ($words as $word) {
+        $word_len = strlen(trim($word));
+        $count += $word_len;
+
+        $finalcount = strlen($out_str) + $word_len;
+
+        if ($finalcount <= $counter) {
             $out_str .= " " . $word;
-
-          } else {
-            
+        } else {
             return $out_str;
-
         }
+        return $out_str;
     }
 }
 
-function seo($type, $tags, $category, $title, $return) {
+function seo($type, $tags, $category, $title, $return)
+{
 
     if ($type == "post" && $return == "keywords") {
         return seo_keywords($title, $tags, $category);
-    }
-
-    elseif ($type == "post" && $return == "description") {
+    } elseif ($type == "post" && $return == "description") {
         return string_count($title);
-    }
-
-    elseif ($type == "tag") {
+    } elseif ($type == "tag") {
         return seo_keywords($title, $tags, $category);
-    }
-
-    elseif ($type == "category") {
+    } elseif ($type == "category") {
         return seo_keywords($title, $tags, $category);
     }
 }
 
-function indian_number_format($num){
-    $num=explode('.',$num);
-    $dec=(count($num)==2)?'.'.$num[1]:'';
-    $num = (string)$num[0];
-    if( strlen($num) < 4) return $num;
-    $tail = substr($num,-3);
-    $head = substr($num,0,-3);
-    $head = preg_replace("/\B(?=(?:\d{2})+(?!\d))/",",",$head);
-    return $head.",".$tail.$dec;
+function indian_number_format($num)
+{
+    $num = explode('.', $num);
+    $dec = (count($num) == 2) ? '.' . $num[1] : '';
+    $num = (string) $num[0];
+    if (strlen($num) < 4) return $num;
+    $tail = substr($num, -3);
+    $head = substr($num, 0, -3);
+    $head = preg_replace("/\B(?=(?:\d{2})+(?!\d))/", ",", $head);
+    return $head . "," . $tail . $dec;
 }
 
-function regex($content){
-    $content = preg_replace("/<img[^>]+\>/i", " ", $content); 
-    $content = preg_replace("/<video[^>]+\>/i", " ", $content); 
+function regex($content)
+{
+    $content = preg_replace("/<img[^>]+\>/i", " ", $content);
+    $content = preg_replace("/<video[^>]+\>/i", " ", $content);
     $content = preg_replace("/ <a.*a>/", " ", $content);
     return $content;
 }
 
-function name_from_path($name) {
+function name_from_path($name)
+{
     if (stripos($name, '.md') !== false) {
         $name = str_ireplace(".md", "", $name);
         if (stripos($name, 'source/_') !== false) {
@@ -163,7 +156,8 @@ function name_from_path($name) {
     return $name;
 }
 
-function md_file_write($path, $value) {
+function md_file_write($path, $value)
+{
     file_put_contents($path, '---' . PHP_EOL, FILE_APPEND);
     file_put_contents($path, 'title: ' . $value . '' . PHP_EOL, FILE_APPEND);
     file_put_contents($path, '---', FILE_APPEND);
